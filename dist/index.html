@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growth OS · Prototype</title>
+    <meta name="description" content="Prototipo visual de Growth OS para Solvers, con estrategia y vista mockup dentro de Mission Control." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #06070b;
+        --panel: rgba(255,255,255,0.05);
+        --panel-2: rgba(255,255,255,0.07);
+        --line: rgba(255,255,255,0.1);
+        --text: #f5f7fb;
+        --muted: rgba(245,247,251,0.72);
+        --soft: rgba(245,247,251,0.5);
+        --accent: #8b5cf6;
+        --accent-2: #4f46e5;
+        --accent-soft: rgba(139,92,246,0.15);
+        --green: #34d399;
+        --blue: #60a5fa;
+        --orange: #f59e0b;
+        --pink: #f472b6;
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --shadow: 0 24px 80px rgba(0,0,0,0.35);
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background:
+          radial-gradient(circle at 10% 10%, rgba(139,92,246,0.22), transparent 24%),
+          radial-gradient(circle at 90% 12%, rgba(79,70,229,0.18), transparent 20%),
+          linear-gradient(180deg, #090b12 0%, #05060a 100%);
+        color: var(--text);
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      body { overflow-x: hidden; }
+      .page { max-width: 1240px; margin: 0 auto; padding: 28px 22px 96px; }
+      .topbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:24px; }
+      .brand { letter-spacing:.42em; text-transform:uppercase; font-size:14px; color:var(--soft); }
+      .chip { display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid var(--line); color:var(--muted); }
+      .hero { padding:34px; border-radius:40px; border:1px solid var(--line); background:linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.03)); box-shadow:var(--shadow); }
+      .eyebrow { display:inline-flex; padding:8px 14px; border-radius:999px; font-size:12px; text-transform:uppercase; letter-spacing:.14em; color:#ddd6fe; border:1px solid rgba(139,92,246,.3); background:var(--accent-soft); }
+      h1,h2,h3,p { margin:0; }
+      h1 { margin-top:18px; font-size:clamp(3rem, 7vw, 5.8rem); line-height:.92; letter-spacing:-.05em; max-width:760px; }
+      .hero-copy { margin-top:18px; max-width:760px; color:var(--muted); font-size:1.08rem; }
+      .tabs { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
+      .tab-btn { padding:14px 18px; border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--muted); font-weight:600; cursor:pointer; }
+      .tab-btn.active { background:linear-gradient(135deg, rgba(139,92,246,.24), rgba(79,70,229,.18)); color:white; border-color:rgba(139,92,246,.34); }
+      .tab-panel { display:none; margin-top:24px; }
+      .tab-panel.active { display:block; }
+      .grid { display:grid; gap:18px; }
+      .grid.two { grid-template-columns: 1.1fr .9fr; }
+      .grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .card { padding:24px; border-radius:var(--radius-lg); background:var(--panel); border:1px solid var(--line); }
+      .card h3 { font-size:1.16rem; margin-bottom:10px; }
+      .card p { color:var(--muted); }
+      .section-title { margin:30px 0 14px; font-size:1.55rem; letter-spacing:-.03em; }
+      .bullet-list { margin:14px 0 0; padding:0; list-style:none; display:grid; gap:12px; }
+      .bullet-list li { position:relative; padding-left:18px; color:var(--muted); }
+      .bullet-list li::before { content:""; position:absolute; left:0; top:.68em; width:8px; height:8px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 6px rgba(139,92,246,.14); }
+      .mock-shell { border-radius:30px; border:1px solid var(--line); background:rgba(8,10,18,.9); overflow:hidden; box-shadow:var(--shadow); }
+      .mock-top { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.03); }
+      .mock-title { font-weight:700; }
+      .mock-body { display:grid; grid-template-columns: 280px 1fr; min-height:720px; }
+      .sidebar { border-right:1px solid var(--line); padding:20px 14px; background:rgba(255,255,255,.025); }
+      .side-group { margin-bottom:18px; }
+      .side-label { font-size:.78rem; text-transform:uppercase; letter-spacing:.14em; color:var(--soft); margin:0 10px 10px; }
+      .side-item { display:flex; align-items:center; gap:12px; margin:8px 0; padding:12px 14px; border-radius:14px; color:var(--muted); }
+      .side-item.active { background:linear-gradient(135deg, rgba(139,92,246,.22), rgba(79,70,229,.18)); color:white; }
+      .dot { width:10px; height:10px; border-radius:999px; background:var(--accent); }
+      .mainview { padding:22px; display:grid; gap:18px; }
+      .cards-row { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+      .stat-card { padding:18px; border-radius:18px; background:var(--panel-2); border:1px solid var(--line); }
+      .stat-card .k { font-size:.8rem; text-transform:uppercase; letter-spacing:.12em; color:var(--soft); }
+      .stat-card .v { margin-top:10px; font-size:1.15rem; font-weight:700; }
+      .mission-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap:18px; }
+      .calendar { display:grid; grid-template-columns: repeat(7, 1fr); gap:10px; margin-top:14px; }
+      .day { min-height:108px; padding:12px; border-radius:16px; background:rgba(255,255,255,.035); border:1px solid var(--line); }
+      .day-num { font-size:.82rem; color:var(--soft); margin-bottom:10px; }
+      .event { padding:8px 10px; border-radius:12px; margin-bottom:8px; font-size:.82rem; font-weight:600; }
+      .purple { background:rgba(139,92,246,.18); color:#ddd6fe; }
+      .blue { background:rgba(96,165,250,.18); color:#bfdbfe; }
+      .green { background:rgba(52,211,153,.18); color:#bbf7d0; }
+      .orange { background:rgba(245,158,11,.18); color:#fde68a; }
+      .pink { background:rgba(244,114,182,.18); color:#fbcfe8; }
+      .wall { position:relative; min-height:420px; padding:20px; border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--line); overflow:hidden; }
+      .sticky { position:absolute; width:180px; min-height:120px; padding:16px; border-radius:18px; color:#120f1d; font-weight:600; box-shadow:0 16px 40px rgba(0,0,0,.18); }
+      .sticky small { display:block; margin-top:8px; font-weight:500; opacity:.7; }
+      .s1 { top:28px; left:24px; background:#fde68a; transform:rotate(-3deg); }
+      .s2 { top:52px; right:46px; background:#bfdbfe; transform:rotate(4deg); }
+      .s3 { bottom:54px; left:90px; background:#fecdd3; transform:rotate(-2deg); }
+      .s4 { bottom:34px; right:92px; background:#c4b5fd; color:#180f34; transform:rotate(3deg); }
+      .marker { position:absolute; border:3px solid rgba(244,114,182,.5); border-radius:24px; pointer-events:none; }
+      .marker.one { top:22px; left:16px; width:228px; height:164px; }
+      .marker.two { bottom:22px; right:70px; width:220px; height:170px; border-color:rgba(52,211,153,.45); }
+      .pipeline { display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap:14px; }
+      .column { padding:16px; border-radius:18px; background:rgba(255,255,255,.035); border:1px solid var(--line); }
+      .column h4 { margin:0 0 12px; font-size:.92rem; text-transform:uppercase; letter-spacing:.12em; color:var(--soft); }
+      .task { padding:12px; border-radius:14px; background:var(--panel-2); border:1px solid var(--line); margin-bottom:10px; color:var(--muted); }
+      .footer-note { margin-top:24px; padding-top:18px; border-top:1px solid var(--line); color:var(--soft); }
+      @media (max-width: 980px) {
+        .grid.two,.mission-grid,.mock-body,.cards-row,.grid.three,.pipeline { grid-template-columns:1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand">S O L V E R S</div>
+        <div class="chip">Prototype · Growth OS</div>
+      </header>
+
+      <section class="hero">
+        <span class="eyebrow">Internal system prototype</span>
+        <h1>Growth OS</h1>
+        <p class="hero-copy">
+          Prototipo visual para centralizar crecimiento, expansión, contenido, campañas e iniciativas internas de Solvers.
+          No es un módulo operativo para clientes. Es un sistema interno para enfocar, visualizar y acelerar el crecimiento.
+        </p>
+
+        <div class="tabs" role="tablist">
+          <button class="tab-btn active" data-tab="strategy">Strategy</button>
+          <button class="tab-btn" data-tab="mission">Mission View</button>
+        </div>
+      </section>
+
+      <section id="strategy" class="tab-panel active">
+        <h2 class="section-title">Strategy</h2>
+        <div class="grid two">
+          <div class="card">
+            <h3>Qué es Growth OS</h3>
+            <p>
+              Un sistema interno visual para que Solvers organice estrategia, posicionamiento, contenido,
+              campañas, expansión e ideas clave en un solo lugar, sin mezclarlo con ejecución de clientes.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Objetivo principal</h3>
+            <p>
+              Convertir el crecimiento de Solvers en algo visible, ordenado y accionable, para que cada semana
+              haya foco real sobre lo que empuja expansión y posicionamiento.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid three" style="margin-top:18px;">
+          <div class="card">
+            <h3>Qué sí entra aquí</h3>
+            <ul class="bullet-list">
+              <li>Posicionamiento de Solvers</li>
+              <li>Contenido y narrativa</li>
+              <li>Campañas y growth experiments</li>
+              <li>Expansion opportunities</li>
+              <li>Ideas estratégicas internas</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Qué no entra aquí</h3>
+            <ul class="bullet-list">
+              <li>Operación diaria de clientes</li>
+              <li>Delivery de cuentas</li>
+              <li>Tareas administrativas de proyectos</li>
+              <li>Procesos internos de empresas cliente</li>
+              <li>PM operativo tradicional</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Base estratégica</h3>
+            <ul class="bullet-list">
+              <li>AI Workforce como posicionamiento central</li>
+              <li>Percepción premium y seria</li>
+              <li>Resultado > herramienta</li>
+              <li>Foco en cliente correcto</li>
+              <li>Crecimiento estructurado, no improvisado</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 class="section-title">Núcleos del sistema</h2>
+        <div class="grid three">
+          <div class="card"><h3>Positioning</h3><p>Define cómo se ve y se comunica Solvers en el mercado.</p></div>
+          <div class="card"><h3>Content</h3><p>Centraliza ideas, piezas, pilares, hooks, guiones y narrativa.</p></div>
+          <div class="card"><h3>Campaigns</h3><p>Ordena mensajes, hipótesis, audiencias y aprendizajes de pauta.</p></div>
+          <div class="card"><h3>Expansion</h3><p>Da visibilidad a iniciativas que abren nuevas líneas o capacidad.</p></div>
+          <div class="card"><h3>Opportunities</h3><p>Convierte ideas y señales en apuestas organizadas para crecimiento.</p></div>
+          <div class="card"><h3>Vision Wall</h3><p>Tablero creativo para notas, intuiciones, proyectos y apuestas futuras.</p></div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3>Resultado esperado</h3>
+          <p>
+            Growth OS ayuda a que Tina y Solvers sepan qué mirar, qué priorizar y cómo convertir visión estratégica
+            en decisiones visibles, sin depender de memoria, chats dispersos o listas genéricas.
+          </p>
+        </div>
+      </section>
+
+      <section id="mission" class="tab-panel">
+        <h2 class="section-title">Mission View</h2>
+        <div class="mock-shell">
+          <div class="mock-top">
+            <div class="mock-title">Mission Control / Growth OS</div>
+            <div class="chip">Preview mode</div>
+          </div>
+          <div class="mock-body">
+            <aside class="sidebar">
+              <div class="side-group">
+                <div class="side-label">Core</div>
+                <div class="side-item active"><span class="dot"></span> Overview</div>
+                <div class="side-item"><span class="dot" style="background:var(--blue)"></span> Calendar</div>
+                <div class="side-item"><span class="dot" style="background:var(--pink)"></span> Vision Wall</div>
+              </div>
+              <div class="side-group">
+                <div class="side-label">Execution</div>
+                <div class="side-item"><span class="dot" style="background:var(--green)"></span> Content Pipeline</div>
+                <div class="side-item"><span class="dot" style="background:var(--orange)"></span> Campaigns</div>
+                <div class="side-item"><span class="dot" style="background:#f87171"></span> Opportunities</div>
+              </div>
+            </aside>
+            <div class="mainview">
+              <div class="cards-row">
+                <div class="stat-card"><div class="k">Focus of the week</div><div class="v">Claridad de posicionamiento + calendarización</div></div>
+                <div class="stat-card"><div class="k">Big opportunity</div><div class="v">Portal para clientes</div></div>
+                <div class="stat-card"><div class="k">Active campaign angle</div><div class="v">AI Workforce, no bots</div></div>
+              </div>
+
+              <div class="mission-grid">
+                <div class="card">
+                  <h3>Growth Calendar</h3>
+                  <p>Calendario visual del crecimiento, no solo de publicaciones.</p>
+                  <div class="calendar">
+                    <div class="day"><div class="day-num">Lun</div><div class="event purple">Positioning review</div><div class="event blue">Hook batch</div></div>
+                    <div class="day"><div class="day-num">Mar</div><div class="event blue">Content brief</div><div class="event orange">Offer refinement</div></div>
+                    <div class="day"><div class="day-num">Mié</div><div class="event green">Campaign message test</div></div>
+                    <div class="day"><div class="day-num">Jue</div><div class="event blue">Authority piece</div><div class="event pink">Vision note</div></div>
+                    <div class="day"><div class="day-num">Vie</div><div class="event orange">Expansion review</div></div>
+                    <div class="day"><div class="day-num">Sáb</div><div class="event pink">Idea capture</div></div>
+                    <div class="day"><div class="day-num">Dom</div><div class="event purple">Weekly reset</div></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <h3>Weekly Focus</h3>
+                  <ul class="bullet-list">
+                    <li>Definir narrativas madre de Solvers</li>
+                    <li>Convertir estrategia en pipeline visual</li>
+                    <li>Ordenar ideas de expansión sin perderlas</li>
+                    <li>Separar growth interno de operación cliente</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="mission-grid">
+                <div class="card">
+                  <h3>Vision Wall</h3>
+                  <div class="wall">
+                    <div class="sticky s1">Portal para clientes<small>Muy pro a expansión</small></div>
+                    <div class="sticky s2">Landing por vertical<small>Contabilidad / staffing</small></div>
+                    <div class="sticky s3">Authority assets<small>Guías, argumentos, casos</small></div>
+                    <div class="sticky s4">Growth experiments<small>Nuevos ángulos y campañas</small></div>
+                    <div class="marker one"></div>
+                    <div class="marker two"></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <h3>Expansion Opportunities</h3>
+                  <ul class="bullet-list">
+                    <li>Portal central para clientes</li>
+                    <li>Activos reutilizables de venta</li>
+                    <li>Páginas por vertical</li>
+                    <li>Partnerships estratégicos</li>
+                    <li>Framework interno de auditorías</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card">
+                <h3>Content Pipeline</h3>
+                <div class="pipeline">
+                  <div class="column"><h4>Ideas</h4><div class="task">Tu empresa no necesita más leads</div><div class="task">No vendemos bots</div></div>
+                  <div class="column"><h4>Writing</h4><div class="task">Hook sobre seguimiento roto</div></div>
+                  <div class="column"><h4>Design</h4><div class="task">Carrusel AI Workforce</div></div>
+                  <div class="column"><h4>Ready</h4><div class="task">Post visión premium</div></div>
+                  <div class="column"><h4>Published</h4><div class="task">Contenido de autoridad</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-note">Prototype intended to help Valentin visualize Growth OS quickly through one link, before any real Mission Control implementation.</div>
+      </section>
+    </main>
+    <script>
+      const buttons = document.querySelectorAll('.tab-btn');
+      const panels = document.querySelectorAll('.tab-panel');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>
